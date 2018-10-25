@@ -11,21 +11,24 @@ namespace Data
 {
     public class DefaultDataService : IDataService
     {
-        public IEnumerable<Person> GetPeopleFromGedcom(string gedcomFile)
+        public Task<IEnumerable<Person>> GetPeopleFromGedcomAsync(string gedcomFile)
         {
-            var reader = GedcomRecordReader.CreateReader(gedcomFile);
-            var db = reader.Database;
+            return Task.Run(() =>
+            {
+                var reader = GedcomRecordReader.CreateReader(gedcomFile);
+                var db = reader.Database;
 
-            return from p in db.Individuals
-                   where p.Names.Any()
-                   let name = p.Names.First()
-                   select new Person(
-                       name.Surname,
-                       name.Given,
-                       p.Birth?.Date?.DateTime1,
-                       p.Birth?.Address?.ToString(),
-                       p.Death?.Date?.DateTime1,
-                       p.Death?.Address?.ToString());
+                return from p in db.Individuals
+                       where p.Names.Any()
+                       let name = p.Names.First()
+                       select new Person(
+                           name.Surname,
+                           name.Given,
+                           p.Birth?.Date?.DateTime1,
+                           p.Birth?.Address?.ToString(),
+                           p.Death?.Date?.DateTime1,
+                           p.Death?.Address?.ToString());
+            });
         }
 
         public bool FileExists(string gedcomFile)
@@ -33,7 +36,7 @@ namespace Data
             return File.Exists(gedcomFile);
         }
 
-        public async Task<string> FindFile()
+        public async Task<string> FindFileAsync()
         {
             var openFileDialog = new OpenFileDialog()
             {
@@ -41,7 +44,7 @@ namespace Data
                 Title="What Gedcom file do you want to use?"
             };
             var pathArray = await openFileDialog.ShowAsync();
-            if (pathArray.Length > 0)
+            if ((pathArray?.Length ?? 0) > 0)
                 return pathArray[0];
             return null;
         }

@@ -32,20 +32,24 @@
     <TextBlock Text="Gedcom Viewer"
                Classes="h1"
                Grid.ColumnSpan="2" />
-    <StackPanel Orientation="Horizontal"
-                Grid.ColumnSpan="3"
-                Grid.Row="1">
+    <DockPanel Grid.ColumnSpan="3"
+               Grid.Row="1">
       <TextBlock Text="Path to GEDCOM file"
                  VerticalAlignment="Center"
-                 HorizontalAlignment="Right" />
-      <TextBox Text="{Binding GedcomPath}"
-               MinWidth="100"/>
+                 DockPanel.Dock="Left" />
+
+
+      <Button Content="Load"
+              DockPanel.Dock="Right"
+              Command="{Binding LoadGedcom}" />
       <Button Content="..."
               MinWidth="60"
+              DockPanel.Dock="Right"
               Command="{Binding FindFile}" />
-      <Button Content="Load"
-              Command="{Binding LoadGedcom}" />
-    </StackPanel>
+
+      <TextBox Text="{Binding GedcomPath}"
+               MinWidth="100"/>
+    </DockPanel>
 
     <TextBlock Grid.Row="0"
                Grid.ColumnSpan="3"

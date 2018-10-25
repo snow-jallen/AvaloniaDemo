@@ -6,8 +6,8 @@ namespace Interfaces
 {
     public interface IDataService
     {
-        IEnumerable<Person> GetPeopleFromGedcom(string gedcomFile);
+        Task<IEnumerable<Person>> GetPeopleFromGedcomAsync(string gedcomFile);
         bool FileExists(string gedcomFile);
-        Task<string> FindFile();
+        Task<string> FindFileAsync();
     }
 }

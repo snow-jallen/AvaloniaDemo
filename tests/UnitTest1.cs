@@ -33,8 +33,8 @@ namespace Tests
         public void TestReadingGedcomFile()
         {
             var dataSvcMock = new Mock<IDataService>();
-            dataSvcMock.Setup(m => m.GetPeopleFromGedcom(It.IsAny<String>()))
-                .Returns(new[]
+            dataSvcMock.Setup(m => m.GetPeopleFromGedcomAsync(It.IsAny<String>()))
+                .ReturnsAsync(new []
                 {
                     new Person("BogusLast", "BogusFirst")
                 });

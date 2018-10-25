@@ -44,19 +44,34 @@ namespace Demo
         private readonly IDataService data;
         private SimpleCommand loadGedcom;
         public SimpleCommand LoadGedcom => loadGedcom ?? (loadGedcom = new SimpleCommand(
-        () => data.FileExists(GedcomPath), //can execute
-        ()=> //execute
+        () => !IsBusy && data.FileExists(GedcomPath), //can execute
+        async ()=> //execute
         {
-            foreach (var p in data.GetPeopleFromGedcom(GedcomPath))
+            Output = "Loading...";
+            IsBusy = true;
+            foreach (var p in await data.GetPeopleFromGedcomAsync(GedcomPath))
                 People.Add(p);
             Output = $"We found {People.Count} people in {GedcomPath}!";
+            IsBusy = false;
         }));
 
         private SimpleCommand findFile;
         public SimpleCommand FindFile => findFile ?? (findFile = new SimpleCommand(
-            () => true,
-            async () => GedcomPath = await data.FindFile()));
+            () => !IsBusy,
+            async () => GedcomPath = await data.FindFileAsync()));
 
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged(nameof(IsBusy));
+                LoadGedcom.RaiseCanExecuteChanged();
+                FindFile.RaiseCanExecuteChanged();
+            }
+        }
 
         private void OnPropertyChanged(string propertyName)=>PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         public event PropertyChangedEventHandler PropertyChanged;
