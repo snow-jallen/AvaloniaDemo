@@ -28,6 +28,11 @@ namespace Demo
             return true;
         }
 
+        internal void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public void Execute(object parameter)
         {
             execute();

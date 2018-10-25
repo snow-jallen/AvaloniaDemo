@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:Demo"
+        xmlns:local="clr-namespace:Demo;assembly=Demo"
+        xmlns:interfaces="clr-namespace:Interfaces;assembly=Interfaces"
         Width="600"
         Height="400"
         Title="Avalonia Demo">
@@ -12,11 +13,70 @@
       <Setter Property="FontSize" Value="24" />
       <Setter Property="FontWeight" Value="Bold" />
     </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Margin" Value="5" />
+    </Style>
+    <Style Selector="TextBlock">
+      <Setter Property="Margin" Value="5" />
+    </Style>
+    <Style Selector="Button">
+      <Setter Property="Margin" Value="5" />
+    </Style>
   </Window.Styles>
-  <Grid RowDefinitions="Auto,Auto,Auto,*" ColumnDefinitions="Auto,*">
-    <TextBlock Text="Your Name" Classes="h1" />
-    <TextBox Text="{Binding TheirName}" Grid.Column="1" />
-    <Button Content="Click This" Command="{Binding ButtonCommand}" Grid.Row="1" Grid.ColumnSpan="2" />
-    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Output}" />
+  <Grid RowDefinitions="Auto,Auto,*"
+        ColumnDefinitions="120,*,80">
+    <TextBlock Text="Gedcom Viewer"
+               Classes="h1"
+               Grid.ColumnSpan="2" />
+    <TextBlock Text="Path to GEDCOM file"
+               VerticalAlignment="Center"
+               Grid.Row="1" />
+    <TextBox Text="{Binding GedcomPath}"
+             Grid.Row="1"
+             Grid.Column="1" />
+    <Button Content="Load"
+            Command="{Binding LoadGedcom}"
+            Grid.Row="1"
+            Grid.Column="2" />
+
+    <TextBlock Grid.Row="0"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Right"
+               Text="{Binding Output}" />
+
+    <ListBox Grid.Row="2"
+             Items="{Binding People}"
+             SelectedItem="{Binding SelectedPerson}">
+      <ListBox.DataTemplates>
+        <DataTemplate DataType="interfaces:Person">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding GivenName}" />
+            <TextBlock Text="{Binding Surname}" />
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.DataTemplates>
+    </ListBox>
+
+    <Border BorderThickness="2"
+            BorderBrush="Black"
+            Margin="5"
+            CornerRadius="5"
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2">
+      <Grid DataContext="{Binding SelectedPerson}"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
+            ColumnDefinitions="Auto,*">
+        <TextBlock Text="Given Name" />
+        <TextBlock Grid.Column="1"
+                   Text="{Binding GivenName}" />
+
+        <TextBlock Text="Surname"
+                   Grid.Row="1"/>
+        <TextBlock Grid.Column="1"
+                   Grid.Row="1"
+                   Text="{Binding Surname}" />
+      </Grid>
+    </Border>
   </Grid>
 </Window>

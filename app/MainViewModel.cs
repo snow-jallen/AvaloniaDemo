@@ -1,20 +1,35 @@
+using Data;
+using Interfaces;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 
 namespace Demo
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private string theirName;
-        public string TheirName
+        public MainViewModel() : this(new DefaultDataService())
+        { }
+
+        public MainViewModel(IDataService data)
         {
-            get=>theirName;
+            this.data = data ?? throw new ArgumentNullException(nameof(data));
+            People = new ObservableCollection<Person>();
+        }
+
+        private string gedcomPath;
+        public string GedcomPath
+        {
+            get=>gedcomPath;
             set
             {
-                theirName=value;
-                OnPropertyChanged(nameof(TheirName));
+                gedcomPath=value;
+                OnPropertyChanged(nameof(GedcomPath));
+                LoadGedcom.RaiseCanExecuteChanged();
             }
         }
+
         private string output;
         public string Output
         {
@@ -26,14 +41,36 @@ namespace Demo
             }
         }
 
-        private SimpleCommand buttonCommand;
-        public SimpleCommand ButtonCommand => buttonCommand ?? (buttonCommand = new SimpleCommand(()=>
+        private SimpleCommand loadGedcom;
+        private readonly IDataService data;
+
+        public SimpleCommand LoadGedcom => loadGedcom ?? (loadGedcom = new SimpleCommand(
+        () => //can execute
         {
-            Output = $"You typed {TheirName}, thanks!";
-            TheirName=String.Empty;
+            return File.Exists(GedcomPath);
+        },
+        ()=> //execute
+        {
+            foreach (var p in data.GetPeopleFromGedcom(GedcomPath))
+                People.Add(p);
+            Output = $"We found {People.Count} people in {GedcomPath}!";
         }));
 
         private void OnPropertyChanged(string propertyName)=>PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<Person> People { get; private set; }
+
+        private Person selectedPerson;
+        public Person SelectedPerson
+        {
+            get => selectedPerson;
+            set
+            {
+                selectedPerson = value;
+                OnPropertyChanged(nameof(SelectedPerson));
+            }
+        }
+
     }
 }
