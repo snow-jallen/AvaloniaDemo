@@ -89,6 +89,30 @@
         <TextBlock Grid.Column="1"
                    Grid.Row="1"
                    Text="{Binding Surname}" />
+
+        <TextBlock Text="Born On"
+                   Grid.Row="2"/>
+        <TextBlock Grid.Column="1"
+                   Grid.Row="2"
+                   Text="{Binding BornOn}" />
+
+        <TextBlock Text="Born At"
+                   Grid.Row="3"/>
+        <TextBlock Grid.Column="1"
+                   Grid.Row="3"
+                   Text="{Binding BornAt}" />
+
+        <TextBlock Text="Died On"
+                   Grid.Row="4"/>
+        <TextBlock Grid.Column="1"
+                   Grid.Row="4"
+                   Text="{Binding DiedOn}" />
+
+        <TextBlock Text="Died At"
+                   Grid.Row="5"/>
+        <TextBlock Grid.Column="1"
+                   Grid.Row="5"
+                   Text="{Binding DiedAt}" />
       </Grid>
     </Border>
   </Grid>

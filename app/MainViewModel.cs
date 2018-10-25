@@ -58,7 +58,11 @@ namespace Demo
         private SimpleCommand findFile;
         public SimpleCommand FindFile => findFile ?? (findFile = new SimpleCommand(
             () => !IsBusy,
-            async () => GedcomPath = await data.FindFileAsync()));
+            async () =>
+            {
+                GedcomPath = await data.FindFileAsync();
+                LoadGedcom.RaiseCanExecuteChanged();
+            }));
 
         private bool isBusy;
         public bool IsBusy
