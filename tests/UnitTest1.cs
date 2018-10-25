@@ -26,5 +26,11 @@ namespace Tests
             command.Execute(this);
             Assert.AreEqual("I worked!", TestString);
         }
+
+        [Test]
+        public void TestReadingGedcomFile()
+        {
+            
+        }
     }
 }
