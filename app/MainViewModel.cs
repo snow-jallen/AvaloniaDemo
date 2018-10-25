@@ -41,9 +41,8 @@ namespace Demo
             }
         }
 
-        private SimpleCommand loadGedcom;
         private readonly IDataService data;
-
+        private SimpleCommand loadGedcom;
         public SimpleCommand LoadGedcom => loadGedcom ?? (loadGedcom = new SimpleCommand(
         () => data.FileExists(GedcomPath), //can execute
         ()=> //execute
@@ -52,6 +51,12 @@ namespace Demo
                 People.Add(p);
             Output = $"We found {People.Count} people in {GedcomPath}!";
         }));
+
+        private SimpleCommand findFile;
+        public SimpleCommand FindFile => findFile ?? (findFile = new SimpleCommand(
+            () => true,
+            async () => GedcomPath = await data.FindFile()));
+
 
         private void OnPropertyChanged(string propertyName)=>PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Interfaces
 {
@@ -7,5 +8,6 @@ namespace Interfaces
     {
         IEnumerable<Person> GetPeopleFromGedcom(string gedcomFile);
         bool FileExists(string gedcomFile);
+        Task<string> FindFile();
     }
 }
