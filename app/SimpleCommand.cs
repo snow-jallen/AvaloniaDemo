@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-namespace test1
+namespace Demo
 {
     public class SimpleCommand : ICommand
     {

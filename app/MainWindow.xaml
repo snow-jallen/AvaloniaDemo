@@ -1,16 +1,22 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:test1"
+        xmlns:local="clr-namespace:Demo"
         Width="600"
         Height="400"
-        Title="test1">
-    <Window.DataContext>
-        <local:MainViewModel />
-    </Window.DataContext>
-    <Grid RowDefinitions="Auto,Auto,Auto,*" ColumnDefinitions="Auto,*">
-        <TextBlock Text="Your Name" />
-        <TextBox Text="{Binding TheirName}" Grid.Column="1" />
-        <Button Content="Click This" Command="{Binding ButtonCommand}" Grid.Row="1" Grid.ColumnSpan="2" />
-        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Output}" />
-    </Grid>
+        Title="Avalonia Demo">
+  <Window.DataContext>
+    <local:MainViewModel />
+  </Window.DataContext>
+  <Window.Styles>
+    <Style Selector="TextBlock.h1">
+      <Setter Property="FontSize" Value="24" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+  </Window.Styles>
+  <Grid RowDefinitions="Auto,Auto,Auto,*" ColumnDefinitions="Auto,*">
+    <TextBlock Text="Your Name" Classes="h1" />
+    <TextBox Text="{Binding TheirName}" Grid.Column="1" />
+    <Button Content="Click This" Command="{Binding ButtonCommand}" Grid.Row="1" Grid.ColumnSpan="2" />
+    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Output}" />
+  </Grid>
 </Window>

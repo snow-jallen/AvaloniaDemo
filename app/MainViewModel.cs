@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace test1
+namespace Demo
 {
     public class MainViewModel : INotifyPropertyChanged
     {

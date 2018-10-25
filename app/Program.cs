@@ -2,7 +2,7 @@
 using Avalonia;
 using Avalonia.Logging.Serilog;
 
-namespace test1
+namespace Demo
 {
     class Program
     {
