@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="0.6.1" />
     <PackageReference Include="GeneGenie.Gedcom" Version="1.0.1" />
   </ItemGroup>
 
