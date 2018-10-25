@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System;
 using Demo;
+using Interfaces;
+using Moq;
 
 namespace Tests
 {
@@ -30,7 +32,21 @@ namespace Tests
         [Test]
         public void TestReadingGedcomFile()
         {
-            
+            var dataSvcMock = new Mock<IDataService>();
+            dataSvcMock.Setup(m => m.GetPeopleFromGedcom(It.IsAny<String>()))
+                .Returns(new[]
+                {
+                    new Person("BogusLast", "BogusFirst")
+                });
+            dataSvcMock.Setup(m => m.FileExists(It.IsAny<String>())).Returns(true);
+
+            var vm = new MainViewModel(dataSvcMock.Object);
+
+            vm.GedcomPath = "totally random";
+            Assert.IsTrue(vm.LoadGedcom.CanExecute(this));
+
+            vm.LoadGedcom.Execute(this);
+            Assert.AreEqual(vm.Output, $"We found {vm.People.Count} people in {vm.GedcomPath}!");
         }
     }
 }

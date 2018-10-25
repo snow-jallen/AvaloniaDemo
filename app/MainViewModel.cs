@@ -45,10 +45,7 @@ namespace Demo
         private readonly IDataService data;
 
         public SimpleCommand LoadGedcom => loadGedcom ?? (loadGedcom = new SimpleCommand(
-        () => //can execute
-        {
-            return File.Exists(GedcomPath);
-        },
+        () => data.FileExists(GedcomPath), //can execute
         ()=> //execute
         {
             foreach (var p in data.GetPeopleFromGedcom(GedcomPath))

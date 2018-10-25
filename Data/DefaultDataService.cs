@@ -2,6 +2,7 @@
 using Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Data
@@ -23,6 +24,11 @@ namespace Data
                        p.Birth?.Address?.ToString(),
                        p.Death?.Date?.DateTime1,
                        p.Death?.Address?.ToString());
+        }
+
+        public bool FileExists(string gedcomFile)
+        {
+            return File.Exists(gedcomFile);
         }
     }
 }

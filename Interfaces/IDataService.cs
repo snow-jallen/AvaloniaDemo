@@ -6,5 +6,6 @@ namespace Interfaces
     public interface IDataService
     {
         IEnumerable<Person> GetPeopleFromGedcom(string gedcomFile);
+        bool FileExists(string gedcomFile);
     }
 }
