@@ -44,6 +44,7 @@ namespace Data
                 Title="What Gedcom file do you want to use?"
             };
             var pathArray = await openFileDialog.ShowAsync();
+
             if ((pathArray?.Length ?? 0) > 0)
                 return pathArray[0];
             return null;

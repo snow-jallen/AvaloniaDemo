@@ -6,7 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="0.6.1" />
+    <PackageReference Include="DotNetTracking" Version="1.1.0" />
     <PackageReference Include="GeneGenie.Gedcom" Version="1.0.1" />
+    <PackageReference Include="OpenWeatherMap" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>

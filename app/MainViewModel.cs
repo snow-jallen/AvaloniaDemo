@@ -1,6 +1,7 @@
 using Data;
 using Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -9,14 +10,36 @@ namespace Demo
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public MainViewModel() : this(new DefaultDataService())
+        public MainViewModel() : this(new DefaultDataService(), new DefaultTrackingService())
         { }
 
-        public MainViewModel(IDataService data)
+        public MainViewModel(IDataService data, ITrackingService trackingSvc)
         {
             this.data = data ?? throw new ArgumentNullException(nameof(data));
+            this.trackingSvc = trackingSvc ?? throw new ArgumentNullException(nameof(trackingSvc));
             People = new ObservableCollection<Person>();
         }
+
+        private IEnumerable<TrackingResult> trackingResults;
+        public IEnumerable<TrackingResult> TrackingResults
+        {
+            get { return trackingResults; }
+            set { trackingResults = value; OnPropertyChanged(nameof(TrackingResults)); }
+        }
+
+        private string trackingNumber;
+        public string TrackingNumber
+        {
+            get { return trackingNumber; }
+            set
+            {
+                trackingNumber = value;
+                TrackingResults = trackingSvc.Track(value);
+                OnPropertyChanged(nameof(TrackingNumber));
+            }
+        }
+
+
 
         private string gedcomPath;
         public string GedcomPath
@@ -42,6 +65,7 @@ namespace Demo
         }
 
         private readonly IDataService data;
+        private readonly ITrackingService trackingSvc;
         private SimpleCommand loadGedcom;
         public SimpleCommand LoadGedcom => loadGedcom ?? (loadGedcom = new SimpleCommand(
         () => !IsBusy && data.FileExists(GedcomPath), //can execute
