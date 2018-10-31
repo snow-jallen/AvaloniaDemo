@@ -3,6 +3,7 @@ using System;
 using Demo;
 using Interfaces;
 using Moq;
+using FluentAssertions;
 
 namespace Tests
 {
@@ -63,6 +64,23 @@ namespace Tests
             vm.FindFile.Execute(this);
 
             Assert.IsTrue(vm.LoadGedcom.CanExecute(this));
+        }
+
+        [Test]
+        [TestCase("London", "London Weather")]
+        public void TestWeatherService(string city, string expectedWeather)
+        {
+            var dataSvcMock = new Mock<IDataService>();
+            dataSvcMock.Setup(m => m.GetWeather(city)).ReturnsAsync(expectedWeather);
+
+            var trackingSvcMock = new Mock<ITrackingService>();
+
+            var vm = new MainViewModel(dataSvcMock.Object, trackingSvcMock.Object);
+
+            vm.WeatherLocation = city;
+            vm.GetWeather.Execute(this);
+
+            vm.Weather.Should().Be(expectedWeather);
         }
     }
 }
