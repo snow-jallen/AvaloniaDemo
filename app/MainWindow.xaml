@@ -120,7 +120,7 @@
           </Border>
         </Grid>
       </TabItem>
-      <TabItem Header="Tab 2">
+      <TabItem Header="Weather Web API Call" IsSelected="True">
         <StackPanel>
           <TextBlock Text="Location" />
           <TextBox Text="{Binding WeatherLocation}" />

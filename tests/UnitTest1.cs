@@ -68,6 +68,7 @@ namespace Tests
 
         [Test]
         [TestCase("London", "London Weather")]
+        [TestCase(null, "Please specify a location")]
         public void TestWeatherService(string city, string expectedWeather)
         {
             var dataSvcMock = new Mock<IDataService>();
