@@ -39,7 +39,36 @@ namespace Demo
             }
         }
 
+        private string weather;
+        public string Weather
+        {
+            get { return weather; }
+            set { weather = value; OnPropertyChanged(nameof(Weather)); }
+        }
 
+        private string weatherLocation;
+        public string WeatherLocation
+        {
+            get { return weatherLocation; }
+            set
+            {
+                weatherLocation = value;
+                OnPropertyChanged(nameof(WeatherLocation));
+            }
+        }
+
+        private SimpleCommand getWeather;
+        public SimpleCommand GetWeather => getWeather ?? (getWeather = new SimpleCommand(async () =>
+        {
+            try
+            {
+                Weather = await data.GetWeather(WeatherLocation);
+            }
+            catch(Exception ex)
+            {
+                Weather = $"Whoops!  Error: {ex.Message}";
+            }
+        }));
 
         private string gedcomPath;
         public string GedcomPath

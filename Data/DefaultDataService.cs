@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using GeneGenie.Gedcom.Parser;
 using Interfaces;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,6 +49,17 @@ namespace Data
             if ((pathArray?.Length ?? 0) > 0)
                 return pathArray[0];
             return null;
+        }
+
+        public async Task<string> GetWeather(string location)
+        {
+            var configurationBuilder = new ConfigurationBuilder()
+                .AddUserSecrets("weatherServiceAppId");
+            var config = configurationBuilder.Build();
+            var weatherAppId = config["weatherServiceAppId"];
+            var client = new OpenWeatherMap.OpenWeatherMapClient(weatherAppId);
+            var weather = await client.CurrentWeather.GetByName(location);
+            return $"City: {weather.City.Name} w/ {weather.Clouds.Value} clouds; last updated {weather.LastUpdate.Value:d}";
         }
     }
 }

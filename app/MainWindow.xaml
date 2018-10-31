@@ -121,7 +121,12 @@
         </Grid>
       </TabItem>
       <TabItem Header="Tab 2">
-
+        <StackPanel>
+          <TextBlock Text="Location" />
+          <TextBox Text="{Binding WeatherLocation}" />
+          <Button Content="Search For Weather" Command="{Binding GetWeather}" />
+          <TextBlock Text="{Binding Weather}" />
+        </StackPanel>
       </TabItem>
       <TabItem Header="Tab 3">
 
